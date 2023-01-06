@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+clear
+cat << fim
+-----------------------------------------------------------------------
+Escolha uma das opções:                                                 
+[01] Versão Bash  ------  [05] Tempo Ligado  ----  [09] Dar Permissões 
+[02] Usuário  ----------  [06] Criar Pasta  -----  [10] Remover Perm.   
+[03] Sistema  ----------  [07] Criar Arquivo  ---  [11] PID Ses. atual
+[04] Nome da Máquina  --  [08] Remover             [12] Painel Hacker
+----------------------------------------------------------------------
+[13] LS Detalhado
+[14] Loc. de Arquvios --
+----------------------------------------------------------------------
+fim
+read -p "Escolha a opção: " resp
+case $resp in
+	1)
+	echo "Sua versão Bash é: $BASH_VERSION";;
+	2)
+	echo "Seu usuário é: " $(whoami);;
+	3)
+	echo "Seu sistema é: " $(uname -rms);;
+	4)
+	echo "O nome da sua máquina é: " $(hostname);;
+	5)
+	echo "Sua máquina está ligada por: " $(uptime -p);;
+	6)
+	read -p "Nome da Pasta: " nomep
+	$(mkdir $nomep);;
+	7)
+	read -p "Nome do Arquvo: " nomea
+	$(> $nomea; chmod +x $nomea);;
+	8)
+	read -p "O que remover?: " nomer
+	$(rm -r $nomer);;
+	9)
+	read -p "Adicionar Permissões a: " nomep
+    cat << fim #Permissões
+Quais permissões?
+Execução [1]
+Escrever [2]
+Ler [3]	
+fim
+	read -p "Escolha permissão: " perm1
+	if [ $perm1 -eq 1 ]; then
+		$(chmod +x $nomep)
+	elif [ $perm1 -eq 2 ]; then
+		$(chmod +w $nomep)
+	elif [ $perm1 -eq 3 ]
+	then
+		$(chmod +r $nomep)
+	else
+		echo "Opção inválida."
+	fi;;
+		10)
+	read -p "Retirar Permissões de: " nomere
+    cat << fim #Permissões
+Quais permissões?
+Execução [1]
+Escrever [2]
+Ler [3]	
+fim
+	read -p "Escolha permissão: " perm2
+	if [ $perm2 -eq 1 ]; then
+		$(chmod -x $nomere)
+	elif [ $perm2 -eq 2 ]; then
+		$(chmod -w $nomere)
+	elif [ $perm2 -eq 3 ]; then
+		$(chmod -r $nomere)
+	else
+		echo "Opção inválida."
+	fi;;
+	11)
+	echo "PID da sessão atual do script é: " $(echo $$);;
+	12)
+	echo "Opção em manutenção."
+	sleep 2.5s
+	reset 
+: << 'comment1'
+		cat << fim #Escolhas2 
+-----------------------------------------------------------------------
+[01] Ping 
+-----------------------------------------------------------------------
+fim
+		read -p "Escolha a opção: " escoh
+		case $escoh in
+		1)
+			read -p "Insra a url do site: " urli
+			clear
+			$(ping $urli);;
+		*)
+			echo "Opção inválida.";;
+		esac;;
+comment1
+;;
+	13)
+	clear
+	ls -la;;
+	14)
+	echo "Opção em manutenção."
+	sleep 2.5s;;
+	*)
+	echo "Opção inválida.";;
+esac
